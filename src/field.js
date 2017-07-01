@@ -1,0 +1,44 @@
+import _ from "lodash";
+
+const createValidatorGroup = validators => {
+  const ValidatorGroup = class ValidatorGroup {
+    validators = [];
+    addValidator(validator) {
+      this.validators.push(validator);
+    }
+  };
+  _.each(validators, Validator => {
+    ValidatorGroup.prototype[Validator.validationName] = function(...args) {
+      this.addValidator(new Validator(...args));
+      return this;
+    };
+  });
+  return ValidatorGroup;
+};
+
+class Field {
+  validatorGroups = [];
+  constructor(validators) {
+    this.ValidatorGroup = createValidatorGroup(validators);
+    let firstValidatorGroup = new this.ValidatorGroup();
+    _.each(validators, Validator => {
+      this[Validator.validationName] = (...args) => {
+        firstValidatorGroup[Validator.validationName](...args);
+        return this;
+      };
+    });
+    this.addValidatorGroup(firstValidatorGroup);
+  }
+  addValidatorGroup(validatorGroup) {
+    this.validatorGroups.push(validatorGroup);
+  }
+  then(fn) {
+    this.addValidatorGroup(fn(new this.ValidatorGroup()));
+    return this;
+  }
+  validators() {
+    return _.map(this.validatorGroups, vG => vG.validators);
+  }
+}
+
+export default Field;
