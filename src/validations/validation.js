@@ -1,23 +1,30 @@
+import debounce from "debounce-promise";
+
+global.debounce = debounce;
+
 class Validation {
-  constructor(...options) {
+  constructor(options, debounced) {
     this.options = options;
     this.id = Symbol();
+    if (debounced) {
+      this.run = debounce(this.run.bind(this), debounced);
+    }
   }
   cancel() {}
-  run(params) {
+  run(value, values) {
     this.cancel();
     return new Promise((resolve, reject) => {
       this.cancel = reject;
-      Promise.resolve(this.test(params)).then(
+      Promise.resolve(this.test(value, values)).then(
         result => {
           if (result) {
             resolve();
           } else {
-            reject(this.failureMessage(params));
+            reject(this.failureMessage(value, values));
           }
         },
         () => {
-          reject(this.failureMessage(params));
+          reject(this.failureMessage(value, values));
         }
       );
     });

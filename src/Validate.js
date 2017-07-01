@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 export class Validate extends React.Component {
   static contextTypes = {
-    validateChange: PropTypes.func,
+    onChange: PropTypes.func,
+    validate: PropTypes.func,
     register: PropTypes.func
   };
   state = { errors: [], runningValidations: 0 };
@@ -11,30 +12,47 @@ export class Validate extends React.Component {
     super(props, context);
     this.onChange = this.onChange.bind(this);
     this.onErrors = this.onErrors.bind(this);
-    this.context.register(this.props.name, this.props.rules, this.onErrors);
+    this.validate = this.validate.bind(this);
+    this.startValidation = this.startValidation.bind(this);
+    this.stopValidation = this.stopValidation.bind(this);
+    this.context.register(
+      this.props.name,
+      this.props.rules,
+      this.onErrors,
+      this.stopValidation,
+      this.props.defaultValue || ""
+    );
   }
   onErrors(errors) {
     this.setState({ errors });
   }
-  onChange(event) {
+  startValidation() {
     this.setState(({ runningValidations }) => ({
       runningValidations: runningValidations + 1
     }));
-    let stopValidation = () =>
-      this.setState(({ runningValidations }) => ({
-        runningValidations: runningValidations - 1
-      }));
-    this.context
-      .validateChange(this.props.name, event.target.value)
-      .then(stopValidation, stopValidation);
+  }
+  stopValidation() {
+    this.setState(({ runningValidations }) => ({
+      runningValidations: runningValidations - 1
+    }));
+  }
+  validate() {
+    this.startValidation();
+    this.context.validate([this.props.name, ...this.props.invalidates]);
+  }
+  onChange(event) {
+    this.context.onChange(this.props.name, event.target.value);
+    this.validate();
   }
   render() {
     let { render, ...props } = this.props;
     return render({
       ...props,
+      error: this.state.errors.length > 0,
       errors: this.state.errors,
       validating: this.state.runningValidations > 0,
-      validate: this.onChange
+      validate: this.validate,
+      onChange: this.onChange
     });
   }
 }

@@ -9,7 +9,14 @@ const createValidatorGroup = validators => {
   };
   _.each(validators, Validator => {
     ValidatorGroup.prototype[Validator.validationName] = function(...args) {
-      this.addValidator(new Validator(...args));
+      this.addValidator(new Validator(args));
+      return this;
+    };
+    ValidatorGroup.prototype[`${Validator.validationName}Debounced`] = function(
+      debounceDuration,
+      ...args
+    ) {
+      this.addValidator(new Validator(args, debounceDuration));
       return this;
     };
   });

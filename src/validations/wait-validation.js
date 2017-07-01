@@ -13,7 +13,7 @@ function wait(time, result, success) {
 class WaitValidation extends Validation {
   static validationName = "wait";
 
-  test() {
+  test(value) {
     let [time, result, success = true] = this.options;
     return wait(time, result, success);
   }

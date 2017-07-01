@@ -2,7 +2,7 @@ import Validation from "./validation";
 
 class LengthValidation extends Validation {
   static validationName = "length";
-  test({ value }) {
+  test(value) {
     let [{ min, max }] = this.options;
     let result = true;
     if (min) {
@@ -13,7 +13,7 @@ class LengthValidation extends Validation {
     }
     return result;
   }
-  failureMessage(params) {
+  failureMessage() {
     let [{ min, max }] = this.options;
     if (min && max) {
       return `must be between ${min} and ${max} characters long`;

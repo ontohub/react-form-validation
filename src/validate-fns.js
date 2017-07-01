@@ -1,13 +1,14 @@
 import _ from "lodash";
+global._ = _;
 
-const validate = (validators, value, onErrors, cancel) => {
-  let errors = _.map(validators, v => ({ [v.id]: null }));
-  const onError = (validator, error) => errors[validator] = error;
-  let results = validators.map(v => {
-    let result = v.run({ value }).then(
+const validateGroup = (validatorGroup, value, values, onErrors, cancel) => {
+  let errors = _.map(validatorGroup, v => ({ [v.id]: null }));
+  const addError = (validator, error) => errors[validator] = error;
+  let results = validatorGroup.map(v => {
+    let result = v.run(value, values).then(
       () => true,
       error => {
-        onError(v.id, error);
+        addError(v.id, error);
         onErrors(errors);
         return false;
       }
@@ -24,12 +25,14 @@ const validate = (validators, value, onErrors, cancel) => {
   });
 };
 
-const nestedValidate = (validators, value, onError, cancel) => {
+const validateGroups = (validatorGroups, value, values, onError, cancel) => {
   let result = Promise.resolve();
-  _.each(validators, validator => {
-    result = result.then(() => validate(validator, value, onError, cancel));
+  _.each(validatorGroups, validatorGroup => {
+    result = result.then(() =>
+      validateGroup(validatorGroup, value, values, onError, cancel)
+    );
   });
   return result;
 };
 
-export default nestedValidate;
+export default validateGroups;

@@ -2,11 +2,11 @@ import Validation from "./validation";
 
 class MatchValidation extends Validation {
   static validationName = "matches";
-  test({ value }) {
+  test(value) {
     let [pattern] = this.options;
     return pattern.test(value);
   }
-  failureMessage(params) {
+  failureMessage() {
     let [_, message] = this.options;
     return message || "is invalid";
   }
