@@ -1,5 +1,4 @@
 import _ from "lodash";
-global._ = _;
 
 const validateGroup = (validatorGroup, value, values, onErrors, cancel) => {
   let errors = _.map(validatorGroup, v => ({ [v.id]: null }));
