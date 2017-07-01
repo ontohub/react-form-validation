@@ -29,10 +29,15 @@ class Field {
     this.ValidatorGroup = createValidatorGroup(validators);
     let firstValidatorGroup = new this.ValidatorGroup();
     _.each(validators, Validator => {
-      this[Validator.validationName] = (...args) => {
-        firstValidatorGroup[Validator.validationName](...args);
-        return this;
-      };
+      _.each(
+        [Validator.validationName, `${Validator.validationName}Debounced`],
+        name => {
+          this[name] = (...args) => {
+            firstValidatorGroup[name](...args);
+            return this;
+          };
+        }
+      );
     });
     this.addValidatorGroup(firstValidatorGroup);
   }
