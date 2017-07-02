@@ -1,6 +1,10 @@
 import debounce from "debounce-promise";
 
-global.debounce = debounce;
+/**
+ * further validators:
+ * - value
+ * - email
+ */
 
 class Validation {
   constructor(options, debounced) {

@@ -1,0 +1,36 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #efefef;
+}
+
+.field {
+  box-sizing: border-box;
+  width: 30rem;
+  padding: 2em 0;
+}
+
+.field .errors {
+  box-sizing: border-box;
+  position: absolute;
+  width: 30rem;
+  background-color: crimson;
+  color: white;
+  font-size: 0.7em;
+  padding: 0 0.5em;
+  border-bottom-left-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+}
+
+.field.validating input {
+  background-color: #ddeeff;
+}
+
+.field input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  font-size: 1.1em;
+  padding: 0.2em;
+}

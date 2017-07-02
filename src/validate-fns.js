@@ -1,5 +1,10 @@
 import _ from "lodash";
 
+/**
+ * Bug:
+ * validating must also cancel all validations in later groups
+ */
+
 const validateGroup = (validatorGroup, value, values, onErrors, cancel) => {
   let errors = _.map(validatorGroup, v => ({ [v.id]: null }));
   const addError = (validator, error) => errors[validator] = error;

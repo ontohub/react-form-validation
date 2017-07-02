@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import Field from "./field";
 import validate from "./validate-fns";
 
-import {
-  LengthValidation,
-  MatchValidation,
-  EqualsValidation,
-  RequiredValidation
-} from "./validations";
+import defaultValidators from "./validations";
 
 export class Validator extends React.Component {
   fields = {};
@@ -21,13 +16,7 @@ export class Validator extends React.Component {
   constructor(props) {
     super(props);
     let { validators = [] } = props;
-    this.validators = [
-      LengthValidation,
-      MatchValidation,
-      EqualsValidation,
-      RequiredValidation,
-      ...validators
-    ];
+    this.validators = [...defaultValidators, ...validators];
     this.register = this.register.bind(this);
     this.validate = this.validate.bind(this);
     this.onChange = this.onChange.bind(this);
