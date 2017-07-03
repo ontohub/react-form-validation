@@ -1,6 +1,6 @@
 {
   "name": "@ontohub/react-form-validation",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha1",
   "description": "validate React forms",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -30,7 +30,7 @@
     "react-dom": "^15.6.1"
   },
   "author": "",
-  "homepage": "",
+  "homepage": "https://github.com/ontohub/react-form-validation",
   "license": "MIT",
   "repository": "",
   "keywords": [
