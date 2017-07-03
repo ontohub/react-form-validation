@@ -1,6 +1,6 @@
 {
   "name": "@ontohub/react-form-validation",
-  "version": "0.1.0-alpha1",
+  "version": "0.1.0-alpha2",
   "description": "validate React forms",
   "main": "lib/index.js",
   "module": "es/index.js",
