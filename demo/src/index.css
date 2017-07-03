@@ -5,6 +5,10 @@ body {
   background-color: #efefef;
 }
 
+h1 {
+  font-weight: normal;
+}
+
 .field {
   box-sizing: border-box;
   width: 30rem;

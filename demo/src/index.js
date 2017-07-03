@@ -38,7 +38,7 @@ class Demo extends Component {
   render() {
     return (
       <div>
-        <h1>Validation demo</h1>
+        <h1>Form validations</h1>
         <Validator validators={[WaitValidation]}>
           <ValidatedField
             name="Username"
@@ -56,7 +56,7 @@ class Demo extends Component {
                     .matches(/[a-z0-9]$/, "must not end with a dash")
                 )
                 .then(f =>
-                  f.waitDebounced(200, 1800, "is already taken", false)
+                  f.waitDebounced(500, 500, "is already taken", false)
                 )}
           />
           <ValidatedField

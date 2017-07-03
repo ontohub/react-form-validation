@@ -30,7 +30,7 @@ export const validateGroup = (
   });
   return Promise.all(results).then(results => {
     if (!_.every(results)) {
-      return Promise.reject();
+      return Promise.reject("no man");
     } else {
       onErrors(errors);
     }

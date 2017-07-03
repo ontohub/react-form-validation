@@ -3,7 +3,9 @@ class Validation {
     this.options = options;
     this.id = Symbol();
     if (debounced) {
-      this.debounce = fn => setTimeout(fn, debounced);
+      this.debounce = fn => {
+        this.debounceTimeout = setTimeout(fn, debounced);
+      };
     }
   }
   debounce(fn) {
@@ -13,7 +15,10 @@ class Validation {
   run(value, values) {
     this.cancel();
     return new Promise((resolve, reject) => {
-      this.cancel = reject;
+      this.cancel = () => {
+        clearTimeout(this.debounceTimeout);
+        reject();
+      };
       this.debounce(() => {
         Promise.resolve(this.test(value, values)).then(
           result => {

@@ -70,15 +70,12 @@ describe("validateGroups", () => {
     [new LengthValidation([{ min: 3 }])]
   ];
   it("validates a group only if the previous passed without error", () => {
-    let onError = expect
-      .createSpy(a => {
-        console.log(a.map(o => Object.getOwnPropertySymbols(o).map(s => o[s])));
-      })
-      .andCallThrough();
+    let onError = expect.createSpy();
     let cancel = new Promise(() => {});
 
-    return validateGroups(validatorGroups, "00", {}, onError, cancel).then(
+    return validateGroups(validatorGroups, "", {}, onError, cancel).then(
       () => {
+        // Should never be called
         expect(true).toBeFalsy();
       },
       () => {

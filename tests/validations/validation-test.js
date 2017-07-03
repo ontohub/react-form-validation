@@ -130,7 +130,7 @@ describe("Validation", () => {
         .createSpy(value => value === correctValue)
         .andCallThrough();
       let failureMessage = value => `must equal ${correctValue}`;
-      validation = new TestValidation([testSpy, failureMessage], 20);
+      validation = new TestValidation([testSpy, failureMessage], 200);
     });
 
     it("only calls the test function once", () => {
