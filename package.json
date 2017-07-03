@@ -1,7 +1,7 @@
 {
-  "name": "validate",
-  "version": "1.0.0",
-  "description": "validate React component",
+  "name": "react-form-validation",
+  "version": "0.1.0",
+  "description": "validate React forms",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -20,6 +20,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
+    "lodash": "^4.17.4",
     "react": "15.x"
   },
   "devDependencies": {
