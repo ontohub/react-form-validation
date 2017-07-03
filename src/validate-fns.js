@@ -5,15 +5,23 @@ import _ from "lodash";
  * validating must also cancel all validations in later groups
  */
 
-const validateGroup = (validatorGroup, value, values, onErrors, cancel) => {
+export const validateGroup = (
+  validatorGroup,
+  value,
+  values,
+  onErrors,
+  cancel
+) => {
   let errors = _.map(validatorGroup, v => ({ [v.id]: null }));
   const addError = (validator, error) => errors[validator] = error;
   let results = validatorGroup.map(v => {
     let result = v.run(value, values).then(
       () => true,
       error => {
-        addError(v.id, error);
-        onErrors(errors);
+        if (error) {
+          addError(v.id, error);
+          onErrors(errors);
+        }
         return false;
       }
     );
@@ -29,7 +37,13 @@ const validateGroup = (validatorGroup, value, values, onErrors, cancel) => {
   });
 };
 
-const validateGroups = (validatorGroups, value, values, onError, cancel) => {
+export const validateGroups = (
+  validatorGroups,
+  value,
+  values,
+  onError,
+  cancel
+) => {
   let result = Promise.resolve();
   _.each(validatorGroups, validatorGroup => {
     result = result.then(() =>
