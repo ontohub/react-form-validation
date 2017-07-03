@@ -74,6 +74,23 @@ class Demo extends Component {
             type="password"
             rules={f => f.equals("Password")}
           />
+          <ValidatedField
+            name="Admin"
+            type="checkbox"
+            rules={f => f.required()}
+          />
+          <Validate
+            invalidates={[
+              "Username",
+              "Email",
+              "Password",
+              "Password confirmation",
+              "Admin"
+            ]}
+            render={({ validate }) => (
+              <button onClick={validate}>Validate all</button>
+            )}
+          />
         </Validator>
       </div>
     );

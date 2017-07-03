@@ -4,7 +4,7 @@ class RequiredValidation extends Validation {
   static validationName = "required";
 
   test(value) {
-    return value.length > 0;
+    return value && value.toString().length > 0;
   }
   failureMessage() {
     return "is required";

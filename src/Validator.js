@@ -24,9 +24,17 @@ export class Validator extends React.Component {
   render() {
     return <div>{this.props.children}</div>;
   }
-  register(name, rules, onErrors, onValidateFinish, defaultValue) {
+  register(
+    name,
+    rules,
+    onErrors,
+    onValidateStart,
+    onValidateFinish,
+    defaultValue
+  ) {
     this.fields[name] = {
       onErrors,
+      onValidateStart,
       onValidateFinish,
       rules: rules(new Field(this.validators)),
       cancel: () => {}
@@ -38,6 +46,7 @@ export class Validator extends React.Component {
   }
   validate(names) {
     _.each(names, name => {
+      this.fields[name].onValidateStart();
       this.fields[name].cancel();
       let cancel = new Promise(resolve => {
         this.fields[name].cancel = resolve;

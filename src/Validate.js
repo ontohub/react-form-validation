@@ -17,8 +17,9 @@ export class Validate extends React.Component {
     this.stopValidation = this.stopValidation.bind(this);
     this.context.register(
       this.props.name,
-      this.props.rules,
+      this.props.rules || (f => f),
       this.onErrors,
+      this.startValidation,
       this.stopValidation,
       this.props.defaultValue || ""
     );
@@ -37,11 +38,14 @@ export class Validate extends React.Component {
     }));
   }
   validate() {
-    this.startValidation();
     this.context.validate([this.props.name, ...this.props.invalidates]);
   }
   onChange(event) {
-    this.context.onChange(this.props.name, event.target.value);
+    let value = event.target.value;
+    if (event.target.type === "checkbox") {
+      value = event.target.checked;
+    }
+    this.context.onChange(this.props.name, value);
     this.validate();
   }
   render() {
